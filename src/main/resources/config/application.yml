@@ -1,2 +1,19 @@
+#激活application-dev.yml
+spring:
+  profiles:
+    active: dev
+
 server:
-  port: 8080
+  port: 8080  #激活dev，会被dev中配置覆盖
+
+---
+#公共的配置开始
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#公共的配置结束

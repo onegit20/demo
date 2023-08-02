@@ -1,6 +1,10 @@
 package com.example.demo.entity;
 
+import com.baomidou.mybatisplus.annotation.*;
+
+@TableName("tb_user")
 public class User {
+    @TableId(type = IdType.AUTO)  //主键回填
     private long id;
     private String name;
     private String password;

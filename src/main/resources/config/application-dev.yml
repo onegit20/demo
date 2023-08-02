@@ -1,0 +1,10 @@
+server:
+  port: 8090
+
+spring:
+  datasource:
+    # https://dev.mysql.com/doc/connector-j/8.1/en/connector-j-reference-configuration-properties.html
+    # useSSL=false&serverTimeZone=Asia/Shanghai 旧版连接属性，推荐使用sslMode，connectionTimeZone
+    url: jdbc:mysql://localhost:3306/mydb?sslMode=DISABLED&connectionTimeZone=Asia/Shanghai
+    username: root
+    password: sevb666
