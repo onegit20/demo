@@ -1,11 +1,13 @@
 package com.example.demo.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.entity.User;
 import com.example.demo.mapper.UserMapper;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import org.apache.ibatis.jdbc.Null;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,9 +37,8 @@ public class UserController {
     private UserMapper userMapper;
     @GetMapping("/users")
     @ApiOperation("查询所有用户")
-    public List queryAll() {
-        List<User> list = userMapper.selectList(null);
-        return list;
+    public List<User> queryAll() {
+        return userMapper.selectList(null);
     }
     @PostMapping("/users")
     @ApiOperation("添加用户")
@@ -68,6 +69,32 @@ public class UserController {
     public User query(@PathVariable int id) {
         return userMapper.selectById(id);
     }
+
+
+    @GetMapping("/users/findall")
+    public List<User> findAll() {
+        return userMapper.findAllUserAndOrders();
+    }
+
+    //条件查询
+    @GetMapping("/users/find")
+    @ApiOperation("条件查询")
+    public List<User> findByCond() {
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("name", "yanyong");
+        return userMapper.selectList(queryWrapper);
+    }
+
+    //分页查询
+    @GetMapping("/users/find/page")
+    @ApiOperation("分页查询")
+    public IPage<User> findByPage(@RequestParam(value = "curr",defaultValue = "1" ) int curr,
+                                  @RequestParam(value = "size",defaultValue = "3" )int size) {
+        Page<User> page = new Page<>(curr,size);
+        IPage<User> iPage = userMapper.selectPage(page,null);
+        return iPage;
+    }
+
  /* mybatis的用法
     @GetMapping("/users")
     @ApiOperation("查询所有用户")

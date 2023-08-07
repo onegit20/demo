@@ -7,6 +7,22 @@ import org.apache.ibatis.annotations.*;
 import java.util.List;
 @Mapper
 public interface UserMapper extends BaseMapper<User> {
+    //根据id查询用户信息
+    @Select("select * from tb_user where id = #{id}")
+    User findUser(int id);
+
+    //查询用户及其所有订单
+    @Select("select * from tb_user")
+    @Results(
+            {
+                    @Result(column = "id", property = "id"),
+                    @Result(column = "name", property = "name"),
+                    @Result(column = "password", property = "password"),
+                    @Result(column = "id", property = "orders", javaType = List.class,
+                            many=@Many(select = "com.example.demo.mapper.OrderMapper.selectByUid"))
+            }
+    )
+    List<User> findAllUserAndOrders();
 }
 
 /* mybatis的用法
